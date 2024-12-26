@@ -69,31 +69,26 @@ export async function getTransactionHistoryController(
   }
 }
 
-// sent by the user
-export async function getDoctorSlotsController(req: Request, res: Response) {
+export async function addSlotController(req: Request, res: Response) {
+  const doctorId = res.locals.currUser.id;
+  const { slotsArray } = req.body;
+
   try {
-    // Logic to fetch doctor's slots
-    const doctorId = req.params.doctorid;
-    const slots = await Slot.find({ doctorId });
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        data: { message: "Doctor not found" },
+      });
+    }
+    slotsArray.forEach(async (slot: any) => {
+      const newSlot = new Slot({ ...slot, doctorId, fee: doctor.fee });
+      await newSlot.save();
+    });
 
     return res.status(200).json({
       success: true,
-      data: { slots }, // Return actual data here
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      data: { error },
-    });
-  }
-}
-
-export async function bookSlotController(req: Request, res: Response) {
-  try {
-    // Logic to book a doctor's slot
-    return res.status(200).json({
-      success: true,
-      data: {}, // Return actual data here
+      data: { message: "Slot added successfully" },
     });
   } catch (error) {
     return res.status(500).json({

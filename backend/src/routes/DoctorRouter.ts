@@ -5,6 +5,7 @@ import {
   getCurrentAppointmentsController,
   getAppointmentsHistoryController,
   getTransactionHistoryController,
+  addSlotController,
 } from "../controllers/doctorController";
 
 export default DoctorRouter;
@@ -27,4 +28,5 @@ DoctorRouter.get(
   getTransactionHistoryController as any
 );
 
+DoctorRouter.post("/add-slot", addSlotController as any);
 module.exports = DoctorRouter;
