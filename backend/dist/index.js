@@ -15,7 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const index_1 = require("./routes/index");
+const authMiddleware_1 = require("./authMiddleware");
 const app = (0, express_1.default)();
+app.use(express_1.default.json());
 function connectDb() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -28,4 +31,7 @@ function connectDb() {
     });
 }
 connectDb();
+app.use("/api/auth", index_1.AuthRouter);
+app.use("/api/user", authMiddleware_1.authenticationMiddleware, index_1.UserRouter);
+app.use("/api/doctor", authMiddleware_1.authenticationMiddleware, index_1.DoctorRouter);
 app.listen(8000, () => console.log("server listening on port 8000"));

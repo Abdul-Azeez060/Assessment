@@ -29,15 +29,12 @@ const UserSchema = new Schema({
     default: 0,
   },
   currentAppointments: [
-    [
-      {
-        doctorId: Schema.Types.ObjectId,
-        status: Status,
-        fee: Number,
-        date: Date.now,
-        time: Date.now,
+    {
+      appointmentId: {
+        type: Schema.Types.ObjectId,
+        ref: "Appointment",
       },
-    ],
+    },
   ],
 });
 

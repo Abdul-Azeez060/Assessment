@@ -11,9 +11,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/axios": "^0.9.36",
     "@types/express": "^5.0.0",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7"
   }
 }

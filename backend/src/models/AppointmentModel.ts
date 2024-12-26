@@ -12,7 +12,9 @@ const AppointmentSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: Status,
+    type: String,
+    enum: Status,
+    default: Status.pending,
   },
   fee: {
     type: Number,
@@ -21,10 +23,16 @@ const AppointmentSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
-  time: {
-    type: Date,
+  startTime: {
+    type: String,
+  },
+  endTime: {
+    type: String,
   },
   disCountApplied: {
-    type: Number,
+    type: Boolean,
   },
 });
+
+AppointmentSchema.index({ doctorId: 1, userId: 1 }, { unique: true });
+export const Appointment = mongoose.model("Appointment", AppointmentSchema);

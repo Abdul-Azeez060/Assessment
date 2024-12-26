@@ -1,7 +1,15 @@
 require("dotenv").config();
 import express from "express";
 import mongoose from "mongoose";
+import {
+  AuthRouter,
+  DoctorRouter,
+  PaymentRouter,
+  UserRouter,
+} from "./routes/index";
+import { authenticationMiddleware } from "./authMiddleware";
 const app = express();
+app.use(express.json());
 
 async function connectDb() {
   try {
@@ -15,5 +23,10 @@ async function connectDb() {
 }
 
 connectDb();
+
+app.use("/api/auth", AuthRouter);
+app.use("/api/user", authenticationMiddleware, UserRouter);
+app.use("/api/doctor", authenticationMiddleware, DoctorRouter);
+app.use("/api/payment", authenticationMiddleware, PaymentRouter);
 
 app.listen(8000, () => console.log("server listening on port 8000"));

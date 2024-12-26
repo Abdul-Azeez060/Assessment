@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-enum Role {
+export enum Role {
   "doctor",
   "user",
 }
@@ -11,20 +11,20 @@ enum TransactionType {
 }
 
 const WalletSchema = new mongoose.Schema({
-  balance: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  entityId: {
+  doctorId: {
     type: Schema.Types.ObjectId,
-    required: true,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
   },
   role: {
     type: Role,
+    enum: Role,
+    required: true,
   },
   transactionType: {
-    type: TransactionType,
+    type: String,
+    enum: TransactionType,
   },
   amount: {
     type: Number,
@@ -38,5 +38,4 @@ const WalletSchema = new mongoose.Schema({
   },
 });
 
-const Wallet = mongoose.model("Wallet", WalletSchema);
-export default Wallet;
+export const Wallet = mongoose.model("Wallet", WalletSchema);
